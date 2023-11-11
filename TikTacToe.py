@@ -1,17 +1,3 @@
-""" Crea una lista bidimensional 3x3 que sirva para jugar al tres en raya, almacenará 3 posibles cadenas,
-una cadena vacía para indicar que no se ha puesto una ficha en esa posición,
-una 'o' para indicar que ha jugado el jugador 1 y una 'x' para el jugador 2.
-
-Crea una función que la recorra y que busque si se ha producido 3 en raya para el jugador 1 en alguna de las filas.
-
-Crea una función que la recorra y que busque si se ha producido 3 en raya para el jugador 1 en alguna de las columnas.
-
-AVANZADO: Crea una función que la recorra y que busque si se ha producido 3 en raya para el jugador 1
-en alguna de las diagonales.
-
-AVANZADO: Crea una función que la recorra y que busque si se ha producido 3 en raya para algún jugador.
-
-AVANZADO: Completa el ejercicio para que dos jugadores puedan jugar al 3 en raya. """
 from typing import Union, List, Tuple
 
 
@@ -96,30 +82,39 @@ table = [["_" for j in range(3)] for i in range(3)]
 
 player1, player2 = players_names()
 
-
 show_table(table)
 
-for i in range(9):
-    if i % 2 == 0:
-        print(f"It's your turn {player1}")
-        symbol = "x"
-    else:
-        print(f"It's your turn {player2}")
-        symbol = "o"
+play = True
+while play == True:
+    for i in range(9):
+        if i % 2 == 0:
+            print(f"It's your turn {player1}")
+            symbol = "x"
+        else:
+            print(f"It's your turn {player2}")
+            symbol = "o"
 
-    row= int(input("Dame la fila (1, 2, 3): "))
-    column = int(input("Dame la columna (1, 2, 3): "))
+        row= int(input("Give me the row (1, 2, 3): "))
+        column = int(input("Give me the column (1, 2, 3): "))
 
-    table[row - 1][column - 1] = symbol
+        table[row - 1][column - 1] = symbol
 
-    show_table(table)
+        show_table(table)
 
-    if isinstance(row_win(table), str):
-        print(row_win(table))
-        break
-    elif isinstance(column_win(table), str):
-        print(column_win(table))
-        break
-    elif isinstance(diagonally_win(table), str):
-        print(diagonally_win(table))
-        break
+        if isinstance(row_win(table), str):
+            print(row_win(table))
+            break
+        elif isinstance(column_win(table), str):
+            print(column_win(table))
+            break
+        elif isinstance(diagonally_win(table), str):
+            print(diagonally_win(table))
+            break
+
+    
+    again = input("Do you want to play again? (y/n) ").lower()
+    if again == "yes" or again == "y":
+        play = True
+    elif again == "no" or again == "n":
+        print("I hope you enjoyed the game. See you soon!")
+        play = False
