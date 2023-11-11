@@ -56,7 +56,7 @@ def diagonally_win(lst: List[str]) -> Union[None, str]:
     elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
         return f"{player2} has won in the downward diagonal."
 
-    # Con esto averiguamos la diagnal ascendente
+    # Con esto averiguamos la diagonal ascendente
     diagonal = []
     for count, i in enumerate(reversed(lst)):
         diagonal.append(i[count])
@@ -77,15 +77,29 @@ def players_names() -> Tuple[str, str]:
         player2 = "Player 2"
     
     return player1, player2
-   
-table = [["_" for j in range(3)] for i in range(3)]
+
+def select_box(table: List[List[str]]) -> None:
+    row = int(input("Give me the row (1, 2, 3): "))
+    column = int(input("Give me the column (1, 2, 3): "))
+
+    while table[row - 1][column - 1] != "_":
+        print("This box is occupied. Select another one.")
+        row= int(input("Give me the row (1, 2, 3): "))
+        column = int(input("Give me the column (1, 2, 3): "))
+    else:
+        table[row - 1][column - 1] = symbol
+
+
 
 player1, player2 = players_names()
 
-show_table(table)
 
 play = True
 while play == True:
+    table = [["_" for j in range(3)] for i in range(3)]
+
+    show_table(table)
+
     for i in range(9):
         if i % 2 == 0:
             print(f"It's your turn {player1}")
@@ -94,10 +108,7 @@ while play == True:
             print(f"It's your turn {player2}")
             symbol = "o"
 
-        row= int(input("Give me the row (1, 2, 3): "))
-        column = int(input("Give me the column (1, 2, 3): "))
-
-        table[row - 1][column - 1] = symbol
+        select_box(table)
 
         show_table(table)
 
