@@ -1,3 +1,3 @@
 # pyProjects
 
-Bienvenido a mi repositorio de proyectos en Python!
+Bienvenida/o a mi repositorio de proyectos en Python!
