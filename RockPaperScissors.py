@@ -36,7 +36,21 @@ def who_wins(ia: int, user: int) -> str:
     else:
         return "IA wins :("
 
+def play_again() -> bool:
+    while True:
+        again = input("Do you want to play again? (y/n) ").lower()
+        if again == "yes" or again == "y":
+            return True
+        elif again == "no" or again == "n":
+            print("I hope you enjoyed the game. See you soon!")
+            return False
+        else:
+            print("This option is not valid.")
 
-ia, user = choices()
 
-print(who_wins(ia, user))
+play = True
+while play:
+    ia, user = choices()
+    print(who_wins(ia, user))
+
+    play = play_again()
