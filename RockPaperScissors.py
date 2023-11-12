@@ -4,7 +4,6 @@ from typing import *
 options_lst = ["Rock", "Paper", "Scissors"]
 
 def show_options(lst: List[str]) -> None:
-    print("Welcome to the game of rock, paper, scissors!")
     for count, i in enumerate(options_lst):
         print(f"  {count + 1}.- {i}")
 
@@ -29,6 +28,7 @@ def choices() -> Tuple[int]:
     return ia, user
         
 def who_wins(ia: int, user: int) -> str:
+    user -= 1
     if ia == user:
         return "Tie :/"
     elif (ia + 1) % len(options_lst) == user:
@@ -48,9 +48,11 @@ def play_again() -> bool:
             print("This option is not valid.")
 
 
+print("Welcome to the game of rock, paper, scissors!")
 play = True
 while play:
     ia, user = choices()
+    print(f"IA chose {options_lst[ia]}")
     print(who_wins(ia, user))
 
     play = play_again()
