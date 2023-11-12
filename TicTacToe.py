@@ -3,6 +3,7 @@ from typing import Union, List, Tuple
 
 def show_table(lst: List[str]) -> None:
     for i in lst:
+        print("        ", end="")
         for j in i:
             print(j, end=" ")
         print()
@@ -78,9 +79,33 @@ def players_names() -> Tuple[str, str]:
     
     return player1, player2
 
+def check_int_choice(a: any, rc: str) -> int:
+    while type(a) != int:
+        try:
+            a = int(a)
+        except:
+            print("This option is not a number. Please select another one.")
+            a = input(f"Give me the {rc} (1, 2, 3): ")
+        
+    return a
+
+def check_range_choice(a: any, rc: str) -> int:
+    while a not in range(1, 4):
+        print("This option is not in range. Please select another one.")
+        a = input(f"Give me the {rc} (1, 2, 3): ")
+        a = check_int_choice(a, rc)
+    
+    return a
+
 def select_box(table: List[List[str]]) -> None:
-    row = int(input("Give me the row (1, 2, 3): "))
-    column = int(input("Give me the column (1, 2, 3): "))
+    row = input("Give me the row (1, 2, 3): ")
+    row = check_int_choice(row, "row")
+    row = check_range_choice(row, "row")
+
+    column = input("Give me the column (1, 2, 3): ")
+    column = check_int_choice(column, "column")
+    column = check_range_choice(column, "column")
+    
 
     while table[row - 1][column - 1] != "_":
         print("This box is occupied. Select another one.")
