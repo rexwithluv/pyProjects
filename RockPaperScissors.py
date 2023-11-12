@@ -12,7 +12,14 @@ def choices() -> Tuple[int]:
     ia = randint(0, 2)
 
     show_options(options_lst)
-    user = int(input("Which one do you choose? (1, 2, 3) "))
+    user = input("Which one do you choose? (1, 2, 3) ")
+
+    while type(user) != int:
+        try:
+            user = int(user)
+        except:
+            print("This option is not valid. Please select another one.")
+            user = input("Which one do you choose? (1, 2, 3) ")
 
     while user not in range(1, 4):
         print("This option is not valid. Please select another one.")
@@ -28,6 +35,7 @@ def who_wins(ia: int, user: int) -> str:
         return "Player wins :D"
     else:
         return "IA wins :("
+
 
 ia, user = choices()
 
