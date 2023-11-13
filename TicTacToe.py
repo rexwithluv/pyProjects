@@ -1,5 +1,16 @@
 from typing import Union, List, Tuple
 
+def players_names() -> Tuple[str, str]:
+    player1 = input("Name of player 1: ")
+    player2 = input("Name of player 2: ")
+
+    if player1 == "":
+        player1 = "Player 1"
+    
+    if player2 == "":
+        player2 = "Player 2"
+    
+    return player1, player2
 
 def show_table(lst: List[str]) -> None:
     for i in lst:
@@ -8,6 +19,8 @@ def show_table(lst: List[str]) -> None:
             print(j, end=" ")
         print()
 
+
+""" These functions are the ones that check that a player has won """
 def row_win(lst: List[str]) -> Union[None, str]:
     for count, i in enumerate(lst):
         if count == 0:
@@ -67,19 +80,17 @@ def diagonally_win(lst: List[str]) -> Union[None, str]:
     elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
         return f"{player2} has won in the upward diagonal."
 
-def players_names() -> Tuple[str, str]:
-    player1 = input("Name of player 1: ")
-    player2 = input("Name of player 2: ")
 
-    if player1 == "":
-        player1 = "Player 1"
-    
-    if player2 == "":
-        player2 = "Player 2"
-    
-    return player1, player2
+""" The check_choice() function uses the check_int_choice() and check_range_choice() functions to make the select_box() function more readable code. """
+def check_choice(rc: str) -> int:
+    a = input(f"Give me the {rc} (1, 2, 3): ")
 
-def check_int_choice(a: any, rc: str) -> int:
+    a = check_int(a, rc)
+    a = check_range(a, rc)
+    
+    return a
+
+def check_int(a: any, rc: str) -> int:
     while type(a) != int:
         try:
             a = int(a)
@@ -89,40 +100,36 @@ def check_int_choice(a: any, rc: str) -> int:
         
     return a
 
-def check_range_choice(a: any, rc: str) -> int:
+def check_range(a: any, rc: str) -> int:
     while a not in range(1, 4):
         print("This option is not in range. Please select another one.")
         a = input(f"Give me the {rc} (1, 2, 3): ")
-        a = check_int_choice(a, rc)
+        a = check_int(a, rc)
     
     return a
 
-def select_box(table: List[List[str]]) -> None:
-    row = input("Give me the row (1, 2, 3): ")
-    row = check_int_choice(row, "row")
-    row = check_range_choice(row, "row")
 
-    column = input("Give me the column (1, 2, 3): ")
-    column = check_int_choice(column, "column")
-    column = check_range_choice(column, "column")
-    
+def select_box(table: List[List[str]]) -> None:
+    row = check_choice("row")
+    column = check_choice("column")
 
     while table[row - 1][column - 1] != "_":
         print("This box is occupied. Select another one.")
-        row= int(input("Give me the row (1, 2, 3): "))
-        column = int(input("Give me the column (1, 2, 3): "))
+        row = check_choice("row")
+        column = check_choice("column")
     else:
         table[row - 1][column - 1] = symbol
+    
+    show_table(table)
 
-
-
-player1, player2 = players_names()
 
 
 play = True
 while play == True:
-    table = [["_" for j in range(3)] for i in range(3)]
+    print("Welcome to TicTacToe game!")
+    player1, player2 = players_names()
 
+    table = [["_" for j in range(3)] for i in range(3)]
     show_table(table)
 
     for i in range(9):
@@ -134,8 +141,6 @@ while play == True:
             symbol = "o"
 
         select_box(table)
-
-        show_table(table)
 
         if isinstance(row_win(table), str):
             print(row_win(table))
