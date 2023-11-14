@@ -83,28 +83,27 @@ def diagonally_win(lst: List[str]) -> Union[None, str]:
 
 """ The check_choice() function uses the check_int_choice() and check_range_choice() functions to make the select_box() function more readable code. """
 def check_choice(rc: str) -> int:
+    def check_int(a: any, rc: str) -> int:
+        while type(a) != int:
+            try:
+                a = int(a)
+            except:
+                print("This option is not a number. Please select another one.")
+                a = input(f"Give me the {rc} (1, 2, 3): ")
+            
+        return a
+    def check_range(a: any, rc: str) -> int:
+        while a not in range(1, 4):
+            print("This option is not in range. Please select another one.")
+            a = input(f"Give me the {rc} (1, 2, 3): ")
+            a = check_int(a, rc)
+        
+        return a
+
     a = input(f"Give me the {rc} (1, 2, 3): ")
 
     a = check_int(a, rc)
     a = check_range(a, rc)
-    
-    return a
-
-def check_int(a: any, rc: str) -> int:
-    while type(a) != int:
-        try:
-            a = int(a)
-        except:
-            print("This option is not a number. Please select another one.")
-            a = input(f"Give me the {rc} (1, 2, 3): ")
-        
-    return a
-
-def check_range(a: any, rc: str) -> int:
-    while a not in range(1, 4):
-        print("This option is not in range. Please select another one.")
-        a = input(f"Give me the {rc} (1, 2, 3): ")
-        a = check_int(a, rc)
     
     return a
 
