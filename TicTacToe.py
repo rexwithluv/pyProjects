@@ -1,15 +1,16 @@
 from typing import Union, List, Tuple
 
+
 def players_names() -> Tuple[str, str]:
     player1 = input("Name of player 1: ")
     player2 = input("Name of player 2: ")
 
     if player1 == "":
         player1 = "Player 1"
-    
+
     if player2 == "":
         player2 = "Player 2"
-    
+
     return player1, player2
 
 
@@ -35,6 +36,7 @@ def win(lst: List[str]) -> Union[None, str]:
                 return f"{player1} has won in the {position} row."
             elif i[0] == "o" and i[1] == "o" and i[2] == "o":
                 return f"{player2} has won in the {position} row."
+
     def column_win(lst: List[str]) -> Union[None, str]:
         # This block transposes the list
         transpose = []
@@ -43,7 +45,6 @@ def win(lst: List[str]) -> Union[None, str]:
             for j in lst:
                 add_to_transpose.append(j[i])
             transpose.append(add_to_transpose)
-            
 
         # Here we check if you have won, who and in which column.
         for count, i in enumerate(transpose):
@@ -58,12 +59,13 @@ def win(lst: List[str]) -> Union[None, str]:
                 return f"{player1} has won in the {position} column."
             elif i[0] == "o" and i[1] == "o" and i[2] == "o":
                 return f"{player2} has won in the {position} column."
+
     def diagonally_win(lst: List[str]) -> Union[None, str]:
         # With this we find out the descending diagonal
         diagonal = []
         for count, i in enumerate(lst):
             diagonal.append(i[count])
-        
+
         if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
             return f"{player1} has won in the downward diagonal."
         elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
@@ -96,24 +98,25 @@ def check_choice(rc: str) -> int:
         while type(a) != int:
             try:
                 a = int(a)
-            except:
+            except ValueError:
                 print("This option is not a number. Please select another one.")
                 a = input(f"Give me the {rc} (1, 2, 3): ")
-            
+
         return a
+
     def check_range(a: any, rc: str) -> int:
         while a not in range(1, 4):
             print("This option is not in range. Please select another one.")
             a = input(f"Give me the {rc} (1, 2, 3): ")
             a = check_int(a, rc)
-        
+
         return a
 
     a = input(f"Give me the {rc} (1, 2, 3): ")
 
     a = check_int(a, rc)
     a = check_range(a, rc)
-    
+
     return a
 
 
@@ -127,13 +130,12 @@ def select_box(table: List[List[str]]) -> None:
         column = check_choice("column")
     else:
         table[row - 1][column - 1] = symbol
-    
+
     show_table(table)
 
 
-
 play = True
-while play == True:
+while play:
     print("Welcome to TicTacToe game!")
     player1, player2 = players_names()
 
@@ -154,7 +156,6 @@ while play == True:
             print(win(table))
             break
 
-    
     again = input("Do you want to play again? (y/n) ").lower()
     if again == "yes" or again == "y":
         play = True
