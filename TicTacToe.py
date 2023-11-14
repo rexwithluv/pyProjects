@@ -2,16 +2,16 @@ from typing import Union, List, Tuple
 
 
 def players_names() -> Tuple[str, str]:
-    player1 = input("Name of player 1: ")
-    player2 = input("Name of player 2: ")
+    user1 = input("Name of player 1: ")
+    user2 = input("Name of player 2: ")
 
-    if player1 == "":
-        player1 = "Player 1"
+    if user1 == "":
+        user1 = "Player 1"
 
-    if player2 == "":
-        player2 = "Player 2"
+    if user2 == "":
+        user2 = "Player 2"
 
-    return player1, player2
+    return user1, user2
 
 
 def show_table(lst: List[str]) -> None:
@@ -22,96 +22,97 @@ def show_table(lst: List[str]) -> None:
         print()
 
 
-def win(lst: List[str]) -> Union[None, str]:
-    def row_win(lst: List[str]) -> Union[None, str]:
-        for count, i in enumerate(lst):
-            if count == 0:
-                position = "top"
-            elif count == 1:
-                position = "middle"
-            else:
-                position = "bottom"
+def win_row(lst: List[str]) -> Union[None, str]:
+    for count, i in enumerate(lst):
+        if count == 0:
+            position = "top"
+        elif count == 1:
+            position = "middle"
+        else:
+            position = "bottom"
 
-            if i[0] == "x" and i[1] == "x" and i[2] == "x":
-                return f"{player1} has won in the {position} row."
-            elif i[0] == "o" and i[1] == "o" and i[2] == "o":
-                return f"{player2} has won in the {position} row."
-
-    def column_win(lst: List[str]) -> Union[None, str]:
-        # This block transposes the list
-        transpose = []
-        for i in range(3):
-            add_to_transpose = []
-            for j in lst:
-                add_to_transpose.append(j[i])
-            transpose.append(add_to_transpose)
-
-        # Here we check if you have won, who and in which column.
-        for count, i in enumerate(transpose):
-            if count == 0:
-                position = "left"
-            elif count == 1:
-                position = "middle"
-            else:
-                position = "right"
-
-            if i[0] == "x" and i[1] == "x" and i[2] == "x":
-                return f"{player1} has won in the {position} column."
-            elif i[0] == "o" and i[1] == "o" and i[2] == "o":
-                return f"{player2} has won in the {position} column."
-
-    def diagonally_win(lst: List[str]) -> Union[None, str]:
-        # With this we find out the descending diagonal
-        diagonal = []
-        for count, i in enumerate(lst):
-            diagonal.append(i[count])
-
-        if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
-            return f"{player1} has won in the downward diagonal."
-        elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
-            return f"{player2} has won in the downward diagonal."
-
-        # With this we find out the ascending diagonal
-        diagonal = []
-        for count, i in enumerate(reversed(lst)):
-            diagonal.append(i[count])
-
-        if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
-            return f"{player1} has won in the upward diagonal."
-        elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
-            return f"{player2} has won in the upward diagonal."
-
-    row_win(lst)
-    column_win(lst)
-    diagonally_win(lst)
-
-    if isinstance(row_win(table), str):
-        return row_win(table)
-    elif isinstance(column_win(table), str):
-        return column_win(table)
-    elif isinstance(diagonally_win(table), str):
-        return diagonally_win(table)
+        if i[0] == "x" and i[1] == "x" and i[2] == "x":
+            return f"{player1} has won in the {position} row."
+        elif i[0] == "o" and i[1] == "o" and i[2] == "o":
+            return f"{player2} has won in the {position} row."
 
 
-def check_choice(rc: str) -> int:
-    def check_int(a: any, rc: str) -> int:
-        while type(a) != int:
-            try:
-                a = int(a)
-            except ValueError:
-                print("This option is not a number. Please select another one.")
-                a = input(f"Give me the {rc} (1, 2, 3): ")
+def win_column(lst: List[str]) -> Union[None, str]:
+    # This block transposes the list
+    transpose = []
+    for i in range(3):
+        add_to_transpose = []
+        for j in lst:
+            add_to_transpose.append(j[i])
+        transpose.append(add_to_transpose)
 
-        return a
+    # Here we check if you have won, who and in which column.
+    for count, i in enumerate(transpose):
+        if count == 0:
+            position = "left"
+        elif count == 1:
+            position = "middle"
+        else:
+            position = "right"
 
-    def check_range(a: any, rc: str) -> int:
-        while a not in range(1, 4):
-            print("This option is not in range. Please select another one.")
+        if i[0] == "x" and i[1] == "x" and i[2] == "x":
+            return f"{player1} has won in the {position} column."
+        elif i[0] == "o" and i[1] == "o" and i[2] == "o":
+            return f"{player2} has won in the {position} column."
+
+
+def win_diagonally(lst: List[str]) -> Union[None, str]:
+    # With this we find out the descending diagonal
+    diagonal = []
+    for count, i in enumerate(lst):
+        diagonal.append(i[count])
+
+    if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
+        return f"{player1} has won in the downward diagonal."
+    elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
+        return f"{player2} has won in the downward diagonal."
+
+    # With this we find out the ascending diagonal
+    diagonal = []
+    for count, i in enumerate(reversed(lst)):
+        diagonal.append(i[count])
+
+    if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
+        return f"{player1} has won in the upward diagonal."
+    elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
+        return f"{player2} has won in the upward diagonal."
+
+
+def win(table: List[str]) -> Union[None, str]:
+    if isinstance(win_row(table), str):
+        return win_row(table)
+    elif isinstance(win_column(table), str):
+        return win_column(table)
+    elif isinstance(win_diagonally(table), str):
+        return win_diagonally(table)
+
+
+def check_int(a: any, rc: str) -> int:
+    while type(a) is not int:
+        try:
+            a = int(a)
+        except ValueError:
+            print("This option is not a number. Please select another one.")
             a = input(f"Give me the {rc} (1, 2, 3): ")
-            a = check_int(a, rc)
 
-        return a
+    return a
 
+
+def check_range(a: any, rc: str) -> int:
+    while a not in range(1, 4):
+        print("This option is not in range. Please select another one.")
+        a = input(f"Give me the {rc} (1, 2, 3): ")
+        a = check_int(a, rc)
+
+    return a
+
+
+def check(rc: str) -> int:
     a = input(f"Give me the {rc} (1, 2, 3): ")
 
     a = check_int(a, rc)
@@ -120,23 +121,32 @@ def check_choice(rc: str) -> int:
     return a
 
 
-def select_box(table: List[List[str]]) -> None:
-    row = check_choice("row")
-    column = check_choice("column")
+def select_box(tbl: List[List[str]]) -> None:
+    row = check("row")
+    column = check("column")
 
-    while table[row - 1][column - 1] != "_":
+    while tbl[row - 1][column - 1] != "_":
         print("This box is occupied. Select another one.")
-        row = check_choice("row")
-        column = check_choice("column")
+        row = check("row")
+        column = check("column")
     else:
-        table[row - 1][column - 1] = symbol
+        tbl[row - 1][column - 1] = symbol
 
-    show_table(table)
+    show_table(tbl)
 
 
+def play_again():
+    again = input("Do you want to play again? (y/n) ").lower()
+    if again == "yes" or again == "y":
+        return True
+    elif again == "no" or again == "n":
+        print("I hope you enjoyed the game. See you soon!")
+        return False
+
+
+print("Welcome to TicTacToe game!")
 play = True
 while play:
-    print("Welcome to TicTacToe game!")
     player1, player2 = players_names()
 
     table = [["_" for j in range(3)] for i in range(3)]
@@ -156,9 +166,4 @@ while play:
             print(win(table))
             break
 
-    again = input("Do you want to play again? (y/n) ").lower()
-    if again == "yes" or again == "y":
-        play = True
-    elif again == "no" or again == "n":
-        print("I hope you enjoyed the game. See you soon!")
-        play = False
+    play = play_again()
