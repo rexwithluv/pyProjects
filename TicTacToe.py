@@ -12,6 +12,7 @@ def players_names() -> Tuple[str, str]:
     
     return player1, player2
 
+
 def show_table(lst: List[str]) -> None:
     for i in lst:
         print("        ", end="")
@@ -20,68 +21,76 @@ def show_table(lst: List[str]) -> None:
         print()
 
 
-""" These functions are the ones that check that a player has won """
-def row_win(lst: List[str]) -> Union[None, str]:
-    for count, i in enumerate(lst):
-        if count == 0:
-            position = "top"
-        elif count == 1:
-            position = "middle"
-        else:
-            position = "bottom"
+def win(lst: List[str]) -> Union[None, str]:
+    def row_win(lst: List[str]) -> Union[None, str]:
+        for count, i in enumerate(lst):
+            if count == 0:
+                position = "top"
+            elif count == 1:
+                position = "middle"
+            else:
+                position = "bottom"
 
-        if i[0] == "x" and i[1] == "x" and i[2] == "x":
-            return f"{player1} has won in the {position} row."
-        elif i[0] == "o" and i[1] == "o" and i[2] == "o":
-            return f"{player2} has won in the {position} row."
+            if i[0] == "x" and i[1] == "x" and i[2] == "x":
+                return f"{player1} has won in the {position} row."
+            elif i[0] == "o" and i[1] == "o" and i[2] == "o":
+                return f"{player2} has won in the {position} row."
+    def column_win(lst: List[str]) -> Union[None, str]:
+        # This block transposes the list
+        transpose = []
+        for i in range(3):
+            add_to_transpose = []
+            for j in lst:
+                add_to_transpose.append(j[i])
+            transpose.append(add_to_transpose)
+            
 
-def column_win(lst: List[str]) -> Union[None, str]:
-    # Con esto transponemos la lista
-    transpose = []
-    for i in range(3):
-        add_to_transpose = []
-        for j in lst:
-            add_to_transpose.append(j[i])
-        transpose.append(add_to_transpose)
+        # Here we check if you have won, who and in which column.
+        for count, i in enumerate(transpose):
+            if count == 0:
+                position = "left"
+            elif count == 1:
+                position = "middle"
+            else:
+                position = "right"
+
+            if i[0] == "x" and i[1] == "x" and i[2] == "x":
+                return f"{player1} has won in the {position} column."
+            elif i[0] == "o" and i[1] == "o" and i[2] == "o":
+                return f"{player2} has won in the {position} column."
+    def diagonally_win(lst: List[str]) -> Union[None, str]:
+        # With this we find out the descending diagonal
+        diagonal = []
+        for count, i in enumerate(lst):
+            diagonal.append(i[count])
         
+        if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
+            return f"{player1} has won in the downward diagonal."
+        elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
+            return f"{player2} has won in the downward diagonal."
 
-    # Aquí comprobamos que si ha ganado, quién y en que columna
-    for count, i in enumerate(transpose):
-        if count == 0:
-            position = "left"
-        elif count == 1:
-            position = "middle"
-        else:
-            position = "right"
+        # With this we find out the ascending diagonal
+        diagonal = []
+        for count, i in enumerate(reversed(lst)):
+            diagonal.append(i[count])
 
-        if i[0] == "x" and i[1] == "x" and i[2] == "x":
-            return f"{player1} has won in the {position} column."
-        elif i[0] == "o" and i[1] == "o" and i[2] == "o":
-            return f"{player2} has won in the {position} column."
+        if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
+            return f"{player1} has won in the upward diagonal."
+        elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
+            return f"{player2} has won in the upward diagonal."
 
-def diagonally_win(lst: List[str]) -> Union[None, str]:
-    # Con esto averiguamos la diagonal descendente
-    diagonal = []
-    for count, i in enumerate(lst):
-        diagonal.append(i[count])
-    
-    if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
-        return f"{player1} has won in the downward diagonal."
-    elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
-        return f"{player2} has won in the downward diagonal."
+    row_win(lst)
+    column_win(lst)
+    diagonally_win(lst)
 
-    # Con esto averiguamos la diagonal ascendente
-    diagonal = []
-    for count, i in enumerate(reversed(lst)):
-        diagonal.append(i[count])
-
-    if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
-        return f"{player1} has won in the upward diagonal."
-    elif diagonal[0] == "o" and diagonal[1] == "o" and diagonal[2] == "o":
-        return f"{player2} has won in the upward diagonal."
+    if isinstance(row_win(table), str):
+        return row_win(table)
+    elif isinstance(column_win(table), str):
+        return column_win(table)
+    elif isinstance(diagonally_win(table), str):
+        return diagonally_win(table)
 
 
-""" The check_choice() function uses the check_int_choice() and check_range_choice() functions to make the select_box() function more readable code. """
 def check_choice(rc: str) -> int:
     def check_int(a: any, rc: str) -> int:
         while type(a) != int:
@@ -141,14 +150,8 @@ while play == True:
 
         select_box(table)
 
-        if isinstance(row_win(table), str):
-            print(row_win(table))
-            break
-        elif isinstance(column_win(table), str):
-            print(column_win(table))
-            break
-        elif isinstance(diagonally_win(table), str):
-            print(diagonally_win(table))
+        if isinstance(win(table), str):
+            print(win(table))
             break
 
     
