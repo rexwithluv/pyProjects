@@ -39,12 +39,7 @@ def win_row(lst: List[str]) -> Union[None, str]:
 
 def win_column(lst: List[str]) -> Union[None, str]:
     # This block transposes the list
-    transpose = []
-    for i in range(3):
-        add_to_transpose = []
-        for j in lst:
-            add_to_transpose.append(j[i])
-        transpose.append(add_to_transpose)
+    transpose = [[j[i] for j in lst] for i in range(3)]
 
     # Here we check if you have won, who and in which column.
     for count, i in enumerate(transpose):
@@ -63,9 +58,7 @@ def win_column(lst: List[str]) -> Union[None, str]:
 
 def win_diagonally(lst: List[str]) -> Union[None, str]:
     # With this we find out the descending diagonal
-    diagonal = []
-    for count, i in enumerate(lst):
-        diagonal.append(i[count])
+    diagonal = [i[count] for count, i in enumerate(lst)]
 
     if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
         return f"{player1} has won in the downward diagonal."
@@ -73,9 +66,7 @@ def win_diagonally(lst: List[str]) -> Union[None, str]:
         return f"{player2} has won in the downward diagonal."
 
     # With this we find out the ascending diagonal
-    diagonal = []
-    for count, i in enumerate(reversed(lst)):
-        diagonal.append(i[count])
+    diagonal = [i[count] for count, i in enumerate(reversed(lst))]
 
     if diagonal[0] == "x" and diagonal[1] == "x" and diagonal[2] == "x":
         return f"{player1} has won in the upward diagonal."
@@ -129,8 +120,8 @@ def select_box(tbl: List[List[str]]) -> None:
         print("This box is occupied. Select another one.")
         row = check("row")
         column = check("column")
-    else:
-        tbl[row - 1][column - 1] = symbol
+    
+    tbl[row - 1][column - 1] = symbol
 
     show_table(tbl)
 
