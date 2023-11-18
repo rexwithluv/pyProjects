@@ -7,23 +7,32 @@ def show_options(lst: List[str]) -> None:
     for count, i in enumerate(options_lst):
         print(f"  {count + 1}.- {i}")
 
+def check_int(string: str) -> int:
+    while type(string) != int:
+        try:
+            string = int(string)
+        except:
+            print("This option is not valid. Please select another one.")
+            string = input("Which one do you choose? (1, 2, 3) ")
+        
+    return string
+
+def check_range(number: Union[int, str]) -> int:
+    while number not in range(1, 4):
+        print("This option is not valid. Please select another one.")
+        number = input("Which one do you choose? (1, 2, 3) ")
+        number = check_int(number)
+    
+    return number
+
 def choices() -> Tuple[int]:
     ia = randint(0, 2)
 
     show_options(options_lst)
     user = input("Which one do you choose? (1, 2, 3) ")
 
-    while type(user) != int:
-        try:
-            user = int(user)
-        except:
-            print("This option is not valid. Please select another one.")
-            user = input("Which one do you choose? (1, 2, 3) ")
-
-    while user not in range(1, 4):
-        print("This option is not valid. Please select another one.")
-        user = int(input("Which one do you choose? "))
-    
+    user = check_int(user)
+    user = check_range(user)
 
     return ia, user
         
