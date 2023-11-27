@@ -1,5 +1,5 @@
 from random import randint
-from typing import *
+from typing import List, Union, Tuple
 
 options_lst = ["Rock", "Paper", "Scissors"]
 
@@ -11,7 +11,7 @@ def check_int(string: str) -> int:
     while type(string) != int:
         try:
             string = int(string)
-        except:
+        except ValueError:
             print("This option is not valid. Please select another one.")
             string = input("Which one do you choose? (1, 2, 3) ")
         
