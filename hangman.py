@@ -26,7 +26,11 @@ while "_" in shadow:
     print(shadow)
     letter = input("Give me a letter: ").upper()
 
-    if letter in word and letter in valid_letters:
+    while letter == "" or letter not in valid_letters:
+        print("I need you to give me a letter!")
+        letter = input("Give me a letter: ").upper()
+
+    if letter in word:
         used_letters.append(letter)
         for i in word_dct.get(letter):
             shadow[i] = letter
